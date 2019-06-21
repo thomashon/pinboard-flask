@@ -1,0 +1,35 @@
+{% extends "main.html" %}
+
+{% block nav %}
+<li class="nav-item">
+    <a class="nav-link" href="{{ url_for('board.add') }}">Add</a>
+</li>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    {% for post in posts %}
+    <div class="col-md-6 col-lg-4 post-card">
+        <div class="card bg-{{ post.color }} mb-3">
+            <div class="card-header text-white">{{ post.title }}</div>
+            <div class="card-body bg-light">
+                <p class="card-text">{{ post.description }}</p>
+                {% if post.my_likes > 0 %}
+                    <button type="submit" class="btn btn-{{ post.color }}" disabled>Likes({{ post.likes }})</button>
+                {% else %}
+                    <form action="{{ url_for('board.like') }}" method="POST">
+                        <input type="hidden" name="session_post_user" value="{{ session }}" />
+                        <input type="hidden" name="post_id" value="{{ post.rowid }}" />
+                        <button type="submit" class="btn btn-{{ post.color }}">Likes({{ post.likes }})</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="row">
+    Der Benutzer wird durch einen Cookie identifizert. Der User kann mit jedem Cookie jeden Beitrag nur einmal liken.
+    Um den Cookie wieder zu entfernen muss in der Entwicklerkonsole der Eintrag gelöscht werden.
+</div>
+{% endblock %}

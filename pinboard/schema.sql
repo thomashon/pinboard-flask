@@ -1,0 +1,20 @@
+DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS likes;
+
+CREATE TABLE post (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    color TEXT NOT NULL 
+);
+
+CREATE TABLE post_likes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    session_post_user VARCHAR NOT NULL,
+    post_id INT NOT NULL,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id)
+        REFERENCES post (id)
+        ON DELETE CASCADE
+);
